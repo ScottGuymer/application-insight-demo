@@ -1,0 +1,10 @@
+node_modules/
+
+
+## dotnet core stuff
+bin/
+obj/
+
+## python
+
+__pycache__

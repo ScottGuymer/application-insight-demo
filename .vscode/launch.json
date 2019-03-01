@@ -1,0 +1,88 @@
+{
+  // Use IntelliSense to find out which attributes exist for C# debugging
+  // Use hover for the description of the existing attributes
+  // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Flask",
+      "type": "python",
+      "request": "launch",
+      "stopOnEntry": false,
+      "pythonPath": "${config:python.pythonPath}",
+      "module": "flask",
+      "cwd": "${workspaceFolder}/services/python/",
+      "env": {
+        "FLASK_APP": "${workspaceFolder}/services/python/app.py"
+      },
+      "args": [
+        "run",
+        "--no-debugger",
+        "--no-reload"
+      ]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "services/node Debug",
+      "cwd": "${workspaceFolder}/services/node",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "run-script",
+        "debug"
+      ],
+      "port": 9229,
+      "env": {
+        "JAEGER_SERVICE_NAME": "node",
+        "JAEGER_AGENT_HOST": "SOMEHOST",
+        "JAEGER_AGENT_PORT": "6831"
+      }
+    },
+    {
+      "type": "java",
+      "name": "services/java Debug",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/services/java/src/main/java",
+      "console": "internalConsole",
+      "stopOnEntry": false,
+      "mainClass": "uk.sky.springtracingdemo.SpringtracingdemoApplication",
+      "args": "",
+      "env": {
+        "JAEGER_SERVICE_NAME": "dotnetcore"
+      }
+    },
+    {
+      "name": "services/dotnetcore Debug",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      // If you have changed target frameworks, make sure to update the program path.
+      "program": "${workspaceFolder}/services/dotnetcore/bin/Debug/netcoreapp2.0/dotnetcore.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/services/dotnetcore",
+      "stopAtEntry": false,
+      "internalConsoleOptions": "openOnSessionStart",
+      "launchBrowser": {
+        "enabled": true,
+        "args": "${auto-detect-url}",
+        "windows": {
+          "command": "cmd.exe",
+          "args": "/C start ${auto-detect-url}"
+        },
+        "osx": {
+          "command": "open"
+        },
+        "linux": {
+          "command": "xdg-open"
+        }
+      },
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "JAEGER_SERVICE_NAME": "dotnetcore"
+      },
+      "sourceFileMap": {
+        "/Views": "${workspaceFolder}/Views"
+      }
+    }
+  ]
+}
