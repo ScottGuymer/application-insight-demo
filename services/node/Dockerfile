@@ -5,7 +5,7 @@ FROM node:10.2.0-alpine AS base
 WORKDIR /app
 
 # copy project file
-COPY package.json .
+COPY package.json package-lock.json ./
  
 #
 # ---- Dependencies ----
@@ -14,7 +14,7 @@ FROM base AS dependencies
 RUN npm set progress=false && npm config set depth 0
 RUN npm install --only=production 
 # copy production node_modules aside
-RUN mkdir /tml && cp -R node_modules /tmp/prod_node_modules
+RUN cp -R node_modules /tmp/prod_node_modules
 # install ALL node_modules, including 'devDependencies'
 RUN npm install
  
@@ -33,5 +33,5 @@ COPY --from=dependencies /tmp/prod_node_modules ./node_modules
 # copy app sources
 COPY . .
 # expose port and define CMD
-EXPOSE 5000
+EXPOSE 80
 CMD npm run start

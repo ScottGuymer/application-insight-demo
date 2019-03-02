@@ -1,50 +1,39 @@
-# gdp-application-insights
+# Application Insights
 
-This repository is designed to showcase a new way of doing application insights for applications within GDP. It shows how we can leverage new open source technologies to provide deep and reliable insights into the applications that we build across GDP.
+This repository is designed to showcase a new way of doing application insights for distributed applications. It shows how we can leverage new open source technologies to provide deep and reliable insights into the applications that we build.
 
 It showcases the following techniques
+
 * Logging
 * Tracing - OpenTracing and Jaeger
 * Metrics - Prometheus
 
-These are illustrated across a number of applications written in the different languages used across GDP.
+These are illustrated across a number of applications written in the different languages.
 
 ## Getting Started
 
 Requirements
+
 * Docker
-* Minikube
-* Ksonnet 0.10.x `brew install ksonnet/tap/ks` or `brew upgrade ksonnet/tap/ks`
+* Docker Compose
 
-If it isnt already, start minikube
+To start the sample you need to use docker compose to build the containers and run them. By running
 
-```
-minikube start --cpus 4 --memory 4096
-```
-
-To build the apps and deploy to the cluster you should run the following. It will take a while to run the first time.
-
-```
-./build.sh
+``` bash
+docker-compose up
 ```
 
-To see the kubernetes dashboard run
+Once everything is running you can see the apps runnign by going to the following URLs
 
-```
-minikube dashboard
-```
+http://localhost:8001 - dotnetcore
+http://localhost:8002 - java
+http://localhost:8003 - python
+http://localhost:8004 - node
 
-To access the Jaeger Dashboard to be able to see the traces you run the following
-```
-minikube service jaeger
-```
+To make cross service calls you simply append the route of the service you want to call. For eample if you wanted to use python to call node you would use
 
+http://localhost:8003/node
 
-You can access any of the example services hosted in the cluster by running one of the following
-```
-minikube service dotnetcore
-minikube service java
-minikube service nodejs
-minikube service python
-```
+To access the Jaeger Dashboard to be able to see the traces you can go to the following URL
 
+http://localhost:16686/search

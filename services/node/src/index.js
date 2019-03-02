@@ -99,4 +99,4 @@ app.use(route.get('/', async ctx => {
 // set up the routes
 app.use(route.get('/:service', controller));
 
-app.listen(3000);
+app.listen(80);

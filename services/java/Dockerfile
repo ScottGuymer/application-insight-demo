@@ -12,6 +12,6 @@ FROM openjdk:10-jre-slim
 
 COPY --from=build /app/target/springtracingdemo-0.0.1-SNAPSHOT.jar /app/springtracingdemo-0.0.1-SNAPSHOT.jar  
 
-EXPOSE 8080  
+EXPOSE 80  
 
 ENTRYPOINT ["java","-jar","/app/springtracingdemo-0.0.1-SNAPSHOT.jar"]  
