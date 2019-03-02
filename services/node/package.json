@@ -23,6 +23,7 @@
     "koa": "2.5.1",
     "koa-route": "^3.2.0",
     "opentracing": "^0.14.3",
+    "prom-client": "^11.2.1",
     "sleep-async": "^1.0.5"
   }
 }

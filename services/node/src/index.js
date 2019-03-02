@@ -4,6 +4,8 @@ const app = new Koa();
 const axios = require('axios');
 const sleep = require('sleep-async')().Promise;
 
+const register = require('prom-client').register;
+
 require('./tracing/tracer')
 
 const opentracing = require('opentracing');
@@ -62,8 +64,16 @@ const controller = async (ctx, service) => {
   remoteSpan.finish();
 }
 
+app.use(route.get('/metrics', (ctx) => {
+	// ctx.set('Content-Type', register.contentType);
+	ctx.body = register.metrics();
+}));
+
+
+
 // set up the root controller to do some work
 app.use(route.get('/', async ctx => {
+  require('./metrics')
   const sleepTime = Math.floor(Math.random() * 1000) + 0;
   const requestTime = Math.floor(Math.random() * 4) + 0;
 
