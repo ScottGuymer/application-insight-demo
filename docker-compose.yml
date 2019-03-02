@@ -49,3 +49,48 @@ services:
       - "9411:9411"
   test:
     build: tests
+  
+
+  prometheus:
+    image: prom/prometheus:v2.1.0
+    volumes:
+      - ./config/prometheus/:/etc/prometheus/
+      - prometheus_data:/config/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+    ports:
+      - 9090:9090
+    links:
+      - alertmanager:alertmanager
+    restart: always
+
+  alertmanager:
+    image: prom/alertmanager
+    ports:
+      - 9093:9093
+    volumes:
+      - ./config/alertmanager/:/etc/alertmanager/
+    restart: always
+    command:
+      - '--config.file=/etc/alertmanager/config.yml'
+      - '--storage.path=/alertmanager'
+
+  grafana:
+    image: grafana/grafana
+    user: "104"
+    depends_on:
+      - prometheus
+    ports:
+      - 3000:3000
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./config/grafana/provisioning/:/etc/grafana/provisioning/
+    env_file:
+      - ./config/grafana/config.monitoring
+    restart: always 
+volumes:
+    prometheus_data: {}
+    grafana_data: {}

@@ -52,6 +52,7 @@ namespace dotnetcore
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseMetricServer();
+            app.UseHttpMetrics();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
