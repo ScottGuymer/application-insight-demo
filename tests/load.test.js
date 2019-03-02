@@ -10,7 +10,7 @@ const services = [
   "dotnetcore",
   "java",
   "python",
-  "nodejs"
+  "node"
 ]
 
 export default function() {
