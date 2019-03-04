@@ -9,7 +9,13 @@ services:
       - JAEGER_AGENT_PORT=6831
       - JAEGER_SERVICE_NAME=dotnetcore
       - JAEGER_SAMPLER_MANAGER_HOST_PORT=jaeger:5778
-
+    links:
+      - fluentd
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+        tag: dotnetcore
   java:
     build: services/java
     ports:
@@ -19,6 +25,13 @@ services:
       - JAEGER_AGENT_PORT=6831
       - JAEGER_SERVICE_NAME=java
       - JAEGER_SAMPLER_MANAGER_HOST_PORT=jaeger:5778
+    links:
+      - fluentd
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+        tag: java
   python:
     build: services/python
     ports:
@@ -28,6 +41,13 @@ services:
       - JAEGER_AGENT_PORT=6831
       - JAEGER_SERVICE_NAME=python
       - JAEGER_SAMPLER_MANAGER_HOST_PORT=jaeger:5778
+    links:
+      - fluentd
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+        tag: python
   node:
     build: services/node
     ports:
@@ -37,6 +57,13 @@ services:
       - JAEGER_AGENT_PORT=6832
       - JAEGER_SERVICE_NAME=node
       - JAEGER_SAMPLER_MANAGER_HOST_PORT=jaeger:5778
+    links:
+      - fluentd
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+        tag: node
   jaeger:
     image: jaegertracing/all-in-one
     ports:
@@ -47,8 +74,22 @@ services:
       - "16686:16686"
       - "14268:14268"
       - "9411:9411"
+    links:
+      - fluentd
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+        tag: jaeger
   test:
     build: tests
+    links:
+      - fluentd
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+        tag: tests
   
 
   prometheus:
@@ -91,6 +132,22 @@ services:
     env_file:
       - ./config/grafana/config.monitoring
     restart: always 
+
+  fluentd:
+    build: ./config/fluentd
+    volumes:
+      - ./config/fluentd/:/fluentd/etc/
+    links:
+      - "elk"
+    ports:
+      - "24224:24224"
+      - "24224:24224/udp"
+  elk:
+    image: sebp/elk
+    ports:
+    - "5601:5601"
+    - "9200:9200" 
+    - "5044:5044"
 volumes:
     prometheus_data: {}
     grafana_data: {}

@@ -37,3 +37,27 @@ http://localhost:8003/node
 To access the Jaeger Dashboard to be able to see the traces you can go to the following URL
 
 http://localhost:16686/search
+
+## Troubleshooting
+
+Getting elasticsearch to run
+
+* Make sure you have upped your docker VM to at least 4gb memory
+* You also need to ensure that the virtual memory setting is correct on the host (not in the container)
+
+From windows you need to 
+
+```
+docker run --privileged -it -v /var/run/docker.sock:/var/run/docker.sock jongallant/ubuntu-docker-client 
+docker run --net=host --ipc=host --uts=host --pid=host -it --security-opt=seccomp=unconfined --privileged --rm -v /:/host alpine /bin/sh
+chroot /host
+sysctl -w vm.max_map_count=262144
+```
+
+More details can be found here
+https://elk-docker.readthedocs.io/#prerequisites
+https://www.elastic.co/guide/en/elasticsearch/reference/5.0/vm-max-map-count.html#vm-max-map-count
+
+And details of connecting to the linux host from windows can be found here
+https://blog.jongallant.com/2017/11/ssh-into-docker-vm-windows/
+
