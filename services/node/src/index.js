@@ -72,8 +72,7 @@ app.use(route.get('/metrics', (ctx) => {
 
 
 // set up the root controller to do some work
-app.use(route.get('/', async ctx => {
-  require('./metrics')
+app.use(route.get('/', async ctx => {  
   const sleepTime = Math.floor(Math.random() * 1000) + 0;
   const requestTime = Math.floor(Math.random() * 4) + 0;
 
