@@ -45,7 +45,7 @@
       "cwd": "${workspaceFolder}/services/java/src/main/java",
       "console": "internalConsole",
       "stopOnEntry": false,
-      "mainClass": "uk.sky.springtracingdemo.SpringtracingdemoApplication",
+      "mainClass": "springtracingdemo.SpringtracingdemoApplication",
       "args": "",
       "env": {
         "JAEGER_SERVICE_NAME": "dotnetcore"

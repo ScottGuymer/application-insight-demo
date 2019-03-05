@@ -1,4 +1,4 @@
-package uk.sky.springtracingdemo;
+package springtracingdemo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

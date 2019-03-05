@@ -1,5 +1,4 @@
-FROM python:onbuild
-MAINTAINER Paul Grave "paul.grave@sky.uk"
+FROM python:3.7-alpine
 
 WORKDIR app
 

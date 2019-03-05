@@ -2,7 +2,7 @@
   "name": "node-opentracing-demo",
   "description": "A demonstration of opentracing in Node JS.",
   "version": "1.0.0",
-  "author": "Tom Davidson <thomas.davidson@sky.uk>",
+  "author": "",
   "license": "MIT",
   "engines": {
     "node": "10.2.0",

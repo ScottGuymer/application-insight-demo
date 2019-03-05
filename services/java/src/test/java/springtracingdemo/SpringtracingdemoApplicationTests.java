@@ -1,4 +1,4 @@
-package uk.sky.springtracingdemo;
+package springtracingdemo;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

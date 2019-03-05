@@ -1,4 +1,4 @@
-package uk.sky.springtracingdemo;
+package springtracingdemo;
 
 import java.net.*;
 
