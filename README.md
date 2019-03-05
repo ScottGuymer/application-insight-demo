@@ -34,9 +34,14 @@ To make cross service calls you simply append the route of the service you want 
 
 http://localhost:8003/node
 
-To access the Jaeger Dashboard to be able to see the traces you can go to the following URL
+## Dashbaords
 
-http://localhost:16686/search
+To access the different dashboards you can use the following URLs
+
+http://localhost:16686/ - Jaeger
+http://localhost:9090/ - Prometheus
+http://localhost:5601/ - Kibana
+http://localhost:3000/ - Grafana
 
 ## Troubleshooting
 
@@ -47,7 +52,7 @@ Getting elasticsearch to run
 
 From windows you need to 
 
-```
+``` bash
 docker run --privileged -it -v /var/run/docker.sock:/var/run/docker.sock jongallant/ubuntu-docker-client 
 docker run --net=host --ipc=host --uts=host --pid=host -it --security-opt=seccomp=unconfined --privileged --rm -v /:/host alpine /bin/sh
 chroot /host
@@ -60,4 +65,3 @@ https://www.elastic.co/guide/en/elasticsearch/reference/5.0/vm-max-map-count.htm
 
 And details of connecting to the linux host from windows can be found here
 https://blog.jongallant.com/2017/11/ssh-into-docker-vm-windows/
-
