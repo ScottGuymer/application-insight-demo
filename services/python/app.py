@@ -14,11 +14,14 @@ import time
 from flask import jsonify
 import prometheus_client
 from flask import Response
+from prometheus_flask_exporter import PrometheusMetrics
+
 
 app = Flask(__name__)
+metrics = PrometheusMetrics(app)
 
-# Add prometheus wsgi middleware to route /metrics requests
-
+# static information as metric
+metrics.info('app_info', 'Application info', version='1.0.3')
 
 # opentracing_tracer = ## some OpenTracing tracer implementation
 config = Config(
