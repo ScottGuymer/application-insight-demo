@@ -12,9 +12,8 @@ from opentracing_instrumentation import request_context
 import os
 import time
 from flask import jsonify
-from werkzeug.wsgi import DispatcherMiddleware
-from prometheus_client import make_wsgi_app
-from werkzeug.serving import run_simple
+import prometheus_client
+from flask import Response
 
 app = Flask(__name__)
 
@@ -40,6 +39,12 @@ config = Config(
 )
 jaegertracer = config.initialize_tracer()
 tracer = FlaskTracer(jaegertracer, True, app)
+
+CONTENT_TYPE_LATEST = str('text/plain; version=0.0.4; charset=utf-8')
+
+@app.route('/metrics/')
+def metrics():
+    return Response(prometheus_client.generate_latest(), mimetype=CONTENT_TYPE_LATEST)
 
 
 @app.route('/<service>')
@@ -107,10 +112,5 @@ def root():
     with opentracing.tracer.start_span('parse request', child_of=parent_span) as responseSpan:
         return jsonify(response)
 
-
-app_dispatch = DispatcherMiddleware(app, {
-    '/metrics': make_wsgi_app()
-})
-
 if __name__ == '__main__':
-    run_simple('0.0.0.0', 80, app_dispatch)    
+    app.run(debug=True, host='0.0.0.0', port=80)    
