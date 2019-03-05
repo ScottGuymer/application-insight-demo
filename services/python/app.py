@@ -12,8 +12,14 @@ from opentracing_instrumentation import request_context
 import os
 import time
 from flask import jsonify
+from werkzeug.wsgi import DispatcherMiddleware
+from prometheus_client import make_wsgi_app
+from werkzeug.serving import run_simple
 
 app = Flask(__name__)
+
+# Add prometheus wsgi middleware to route /metrics requests
+
 
 # opentracing_tracer = ## some OpenTracing tracer implementation
 config = Config(
@@ -101,5 +107,11 @@ def root():
     with opentracing.tracer.start_span('parse request', child_of=parent_span) as responseSpan:
         return jsonify(response)
 
+
+app_dispatch = DispatcherMiddleware(app, {
+    '/metrics': make_wsgi_app()
+})
+
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=80)
+    run_simple('0.0.0.0', 80, app_dispatch,
+               use_reloader=True, use_debugger=True, use_evalex=True)    
