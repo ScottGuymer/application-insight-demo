@@ -81,15 +81,6 @@ services:
       options:
         fluentd-address: localhost:24224
         tag: jaeger
-  test:
-    build: tests
-    links:
-      - fluentd
-    logging:
-      driver: "fluentd"
-      options:
-        fluentd-address: localhost:24224
-        tag: tests
   
   prometheus:
     image: prom/prometheus:v2.1.0
@@ -177,6 +168,23 @@ services:
       - 9100:9100
     restart: always
 
+  test:
+    build: tests
+    environment:
+      - K6_OUT=influxdb=http://influxdb:8086/k6
+    links:
+      - fluentd
+      - influxdb
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+        tag: tests
+
+  influxdb:
+    build: config/influxdb      
+    ports:
+      - "8086:8086"
 volumes:
     prometheus_data: {}
     grafana_data: {}

@@ -113,5 +113,4 @@ app_dispatch = DispatcherMiddleware(app, {
 })
 
 if __name__ == '__main__':
-    run_simple('0.0.0.0', 80, app_dispatch,
-               use_reloader=True, use_debugger=True, use_evalex=True)    
+    run_simple('0.0.0.0', 80, app_dispatch)    

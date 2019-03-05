@@ -48,3 +48,9 @@ datasources:
   version: 1
   # <bool> allow users to edit datasources from the UI.
   editable: true
+
+- name: influxdb
+  type: influxdb 
+  access: proxy 
+  url: http://influxdb:8086/
+  database: k6
